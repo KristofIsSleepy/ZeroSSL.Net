@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZeroSSL.Net.Model
 {
-    public enum ValidationMethod
+    public enum VerificationMethod
     {
         EMAIL,
         CNAME_CSR_HASH,

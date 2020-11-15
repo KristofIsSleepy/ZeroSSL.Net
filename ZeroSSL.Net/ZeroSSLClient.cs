@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text;
+using ZeroSSL.Net.Model;
 using ZeroSSL.Net.Model.Input;
 using ZeroSSL.Net.Model.Input.GET;
 using ZeroSSL.Net.Model.Input.POST;
@@ -22,13 +23,13 @@ namespace ZeroSSL.Net
         public void CreateCertificate(CreateCertificatePOST postParameters)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint("certificates");
-            SendRequest(absoluteEndpoint, postParameters);
+            SendRequest(absoluteEndpoint, postParameters, "POST");
         }
 
         public void VerifyDomains(string certificateId, VerifyDomainsPOST postParameters)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}/challenges");
-            SendRequest(absoluteEndpoint, postParameters);
+            SendRequest(absoluteEndpoint, postParameters, "POST");
         }
 
         public void DownloadCertificateZIP(string certificateId, string targetFile)
@@ -44,32 +45,56 @@ namespace ZeroSSL.Net
         public void DownloadCertificateInline(string certificateId)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}/download/return");
-            SendRequest(absoluteEndpoint, null);
+            SendRequest(absoluteEndpoint, null, "GET");
         }
 
         public void GetCertificate(string certificateId)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}");
-            SendRequest(absoluteEndpoint, null);
+            SendRequest(absoluteEndpoint, null, "GET");
         }
 
         public void ListCertificates(ListCertificatesGET getParameters)
         {
             string parameters = $"certificate_status={getParameters.certificate_status}&search={getParameters.search}&limit={getParameters.limit}&page={getParameters.page}";
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates", parameters);
-            SendRequest(absoluteEndpoint, null);
+            SendRequest(absoluteEndpoint, null, "GET");
         }
 
         public void VerificationStatus(string certificateId)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}/status");
-            SendRequest(absoluteEndpoint, null);
+            SendRequest(absoluteEndpoint, null, "GET");
         }
 
-        private void SendRequest(string endpointDirectory, InputBasePOST input)
+        public void ResendVerificationEmail(string certificateId)
+        {
+            var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}/challenges/email");
+            SendRequest(absoluteEndpoint, null, "POST");
+        }
+
+        public void CancelCertificate(string certificateId)
+        {
+            var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}/cancel");
+            SendRequest(absoluteEndpoint, null, "POST");
+        }
+
+        public void DeleteCertificate(string certificateId)
+        {
+            var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}");
+            SendRequest(absoluteEndpoint, null, "DELETE");
+        }
+
+        public void GenerateEABCredentials()
+        {
+            var absoluteEndpoint = ConstructAbsoluteEndpoint($"acme/eab-credentials");
+            SendRequest(absoluteEndpoint, null, "POST");
+        }
+
+        private void SendRequest(string endpointDirectory, InputBasePOST input, string method)
         {
             var requester = WebRequest.Create(endpointDirectory);
-            requester.Method = input == null ? "GET" : "POST";
+            requester.Method = method;
 
             if (requester.Method == "POST")
             {
@@ -92,6 +117,15 @@ namespace ZeroSSL.Net
             {
                 var sr = new StreamReader(stream);
                 var content = sr.ReadToEnd();
+
+
+                try
+                {
+                    var returnObj = JsonConvert.DeserializeObject<Certificate>(content);
+                }
+                catch (Exception ex)
+                {
+                }
             }
         }
 

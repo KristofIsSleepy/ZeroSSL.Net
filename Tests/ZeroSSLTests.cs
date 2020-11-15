@@ -24,7 +24,7 @@ namespace Tests
         [TestMethod]
         public void VerifyDomains()
         {
-            var verifyDomainsInput = new VerifyDomainsPOST(ValidationMethod.EMAIL);
+            var verifyDomainsInput = new VerifyDomainsPOST(VerificationMethod.EMAIL);
 
             var client = new ZeroSSLClient(apiKey);
 
@@ -64,6 +64,20 @@ namespace Tests
         {
             var client = new ZeroSSLClient(apiKey);
             client.VerificationStatus("227c21d7deba60807d9dc76d3c1c5e4f");
+        }
+
+        [TestMethod]
+        public void ResendVerificationEmail()
+        {
+            var client = new ZeroSSLClient(apiKey);
+            client.ResendVerificationEmail("227c21d7deba60807d9dc76d3c1c5e4f");
+        }
+
+        [TestMethod]
+        public void CancelCertificate()
+        {
+            var client = new ZeroSSLClient(apiKey);
+            client.CancelCertificate("227c21d7deba60807d9dc76d3c1c5e4f");
         }
     }
 }
