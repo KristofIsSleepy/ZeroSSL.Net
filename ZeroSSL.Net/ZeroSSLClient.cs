@@ -60,6 +60,12 @@ namespace ZeroSSL.Net
             SendRequest(absoluteEndpoint, null);
         }
 
+        public void VerificationStatus(string certificateId)
+        {
+            var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}/status");
+            SendRequest(absoluteEndpoint, null);
+        }
+
         private void SendRequest(string endpointDirectory, InputBasePOST input)
         {
             var requester = WebRequest.Create(endpointDirectory);
