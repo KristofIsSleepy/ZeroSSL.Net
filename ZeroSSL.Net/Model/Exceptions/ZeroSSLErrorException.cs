@@ -10,6 +10,10 @@ namespace ZeroSSL.Net.Model.Exceptions
     {
         public string Code { get; set; }
         public string Type { get; set; }
+        public string Info { get; set; }
+
+
+        public ZeroSSLErrorException() { }
 
         public ZeroSSLErrorException(string code, string type)
         {
