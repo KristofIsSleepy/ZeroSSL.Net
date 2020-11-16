@@ -1,6 +1,8 @@
 trigger:
 - main
 
+name: $(major).$(minor).$(patch)
+
 pool:
   name: Self-Hosted
 
