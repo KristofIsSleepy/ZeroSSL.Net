@@ -1,17 +1,43 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
+
+name: $(major).$(minor).$(patch).$(Rev:r)
 
 pool:
   name: Self-Hosted
 
 steps:
+
+- task: replacetokens@3
+  displayName: 'Replace Tokens'
+  inputs:
+    targetFiles: '**/GeneralErrorTests.cs'
+    encoding: 'auto'
+    writeBOM: true
+    actionOnMissing: 'fail'
+    keepToken: false
+    tokenPrefix: '#{'
+    tokenSuffix: '}#'
+    useLegacyPattern: false
+    enableTelemetry: true
+
+- task: DotNetCoreCLI@2
+  displayName: 'Test'
+  inputs:
+    command: 'test'
+    projects: '**/*.csproj'
+
 - task: DotNetCoreCLI@2
   displayName: 'Build'
   inputs:
     command: 'build'
     projects: '**/ZeroSSL.Net.csproj'
+    arguments: '-o $(Build.ArtifactStagingDirectory)'
+
+- task: NuGetCommand@2
+  displayName: 'Nuget Push'
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '6c1c72c3-5ef9-4dc2-83a7-2bc315c25718'
