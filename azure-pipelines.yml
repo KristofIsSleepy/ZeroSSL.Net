@@ -1,7 +1,7 @@
 trigger:
 - main
 
-name: $(major).$(minor).$(patch)
+name: $(major).$(minor).$(patch).$(Rev:r)
 
 pool:
   name: Self-Hosted
