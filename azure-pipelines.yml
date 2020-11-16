@@ -1,4 +1,5 @@
 # Starter pipeline
+
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -15,3 +16,9 @@ steps:
   inputs:
     command: 'build'
     projects: '**/ZeroSSL.Net.csproj'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      dir $(Build.ArtifactStagingDirectory)
