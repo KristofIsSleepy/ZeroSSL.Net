@@ -34,9 +34,10 @@ steps:
     projects: '**/ZeroSSL.Net.csproj'
     arguments: '-o $(Build.ArtifactStagingDirectory)'
 
-
-- task: PowerShell@2
+- task: NuGetCommand@2
+  displayName: 'Nuget Push'
   inputs:
-    targetType: 'inline'
-    script: |
-      dir $(Build.ArtifactStagingDirectory)
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '6c1c72c3-5ef9-4dc2-83a7-2bc315c25718'
