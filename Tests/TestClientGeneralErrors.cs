@@ -9,23 +9,23 @@ namespace Tests
     {
         public static void MissingAPIKey()
         {
-            RequestHandler.AccessKey = "";
+            RequestHandler.ApiKey = "";
             string dummyEndpoint = RequestHandler.ConstructRequestEndpoint(TestData.dummy_endpoint);
-            RequestHandler.SendRequest<Certificate>(dummyEndpoint, null, "GET");
+            RequestHandler.SendRequest<CertificateDetails>(dummyEndpoint, null, "GET");
         }
 
         public static void InvalidAPIKey()
         {
-            RequestHandler.AccessKey = "invalid_key";
+            RequestHandler.ApiKey = "invalid_key";
             string dummyEndpoint = RequestHandler.ConstructRequestEndpoint(TestData.dummy_endpoint);
-            RequestHandler.SendRequest<Certificate>(dummyEndpoint, null, "GET");
+            RequestHandler.SendRequest<CertificateDetails>(dummyEndpoint, null, "GET");
         }
 
         public static void InvalidAPIFunction(string apiKey)
         {
-            RequestHandler.AccessKey = apiKey;
+            RequestHandler.ApiKey = apiKey;
             string dummyEndpoint = RequestHandler.ConstructRequestEndpoint(TestData.dummy_endpoint);
-            RequestHandler.SendRequest<Certificate>(dummyEndpoint, null, "GET");
+            RequestHandler.SendRequest<CertificateDetails>(dummyEndpoint, null, "GET");
         }
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace Tests
         /// <param name="apiKey"></param>
         public static void IncorrectRequestType(string apiKey)
         {
-            RequestHandler.AccessKey = apiKey;
+            RequestHandler.ApiKey = apiKey;
             string dummyEndpoint = RequestHandler.ConstructRequestEndpoint("acme/eab-credentials");
-            RequestHandler.SendRequest<Certificate>(dummyEndpoint, null, "GET");
+            RequestHandler.SendRequest<CertificateDetails>(dummyEndpoint, null, "GET");
         }
 
         /// <summary>
@@ -45,9 +45,9 @@ namespace Tests
         /// <param name="apiKey"></param>
         public static void PermissionDenied(string apiKey)
         {
-            RequestHandler.AccessKey = apiKey;
+            RequestHandler.ApiKey = apiKey;
             string dummyEndpoint = RequestHandler.ConstructRequestEndpoint("acme/eab-credentials");
-            RequestHandler.SendRequest<Certificate>(dummyEndpoint, null, "GET");
+            RequestHandler.SendRequest<CertificateDetails>(dummyEndpoint, null, "GET");
         }
 
         /// <summary>
@@ -56,16 +56,16 @@ namespace Tests
         /// <param name="apiKey"></param>
         public static void MissingCertificateHash(string apiKey)
         {
-            RequestHandler.AccessKey = apiKey;
+            RequestHandler.ApiKey = apiKey;
             string dummyEndpoint = RequestHandler.ConstructRequestEndpoint("certificates//status");
-            RequestHandler.SendRequest<Certificate>(dummyEndpoint, null, "GET");
+            RequestHandler.SendRequest<CertificateDetails>(dummyEndpoint, null, "GET");
         }
 
         public static void CertificateNotFound(string apiKey)
         {
-            RequestHandler.AccessKey = apiKey;
+            RequestHandler.ApiKey = apiKey;
             string dummyEndpoint = RequestHandler.ConstructRequestEndpoint($"certificates/{TestData.invalid_certificate}/status");
-            RequestHandler.SendRequest<Certificate>(dummyEndpoint, null, "GET");
+            RequestHandler.SendRequest<CertificateDetails>(dummyEndpoint, null, "GET");
         }
     }
 }

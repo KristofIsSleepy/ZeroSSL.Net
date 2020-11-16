@@ -12,6 +12,6 @@ namespace ZeroSSL.Net.Model.Output
         public int result_count { get; set; }
         public int page { get; set; }
         public int limit { get; set; }
-        public List<Certificate> results { get; set; }
+        public List<CertificateDetails> results { get; set; }
     }
 }

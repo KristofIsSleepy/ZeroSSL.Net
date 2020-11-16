@@ -15,7 +15,7 @@ namespace ZeroSSL.Net
     public static class RequestHandler
     {
         public static string BaseEndpoint { get; set; } = "api.zerossl.com";
-        public static string AccessKey { get; set; }
+        public static string ApiKey { get; set; }
 
         public static T SendRequest<T>(string endpointDirectory, InputBasePOST input, string method) where T : IOutput
         {
@@ -89,12 +89,12 @@ namespace ZeroSSL.Net
         public static string ConstructRequestEndpoint(string endpointDirectory)
         {
             //Verify that the consumer has set the AccessKey
-            if(String.IsNullOrEmpty(AccessKey))
+            if(String.IsNullOrEmpty(ApiKey))
             {
                 throw new EmptyAPIKeyException();
             }
 
-            return $@"https://{BaseEndpoint}/{endpointDirectory}?access_key={AccessKey}";
+            return $@"https://{BaseEndpoint}/{endpointDirectory}?access_key={ApiKey}";
         }
 
         public static string ConstructRequestEndpoint(string endpointDirectory, string additionalParameters)

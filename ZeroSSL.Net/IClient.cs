@@ -11,11 +11,11 @@ namespace ZeroSSL.Net
 {
     public interface IClient
     {
-        Certificate CreateCertificate(CreateCertificatePOST postParameters);
+        CertificateDetails CreateCertificate(CreateCertificatePOST postParameters);
         VerifyDomains VerifyDomains(string certificateId, VerifyDomainsPOST postParameters);
         void DownloadCertificateZIP(string certificateId, string targetFile);
-        DownloadCertificate DownloadCertificateInline(string certificateId);
-        Certificate GetCertificate(string certificateId);
+        InlineCertificate DownloadCertificateInline(string certificateId);
+        CertificateDetails GetCertificate(string certificateId);
         ListCertificates ListCertificates(ListCertificatesGET getParameters);
         VerificationStatus VerificationStatus(string certificateId);
         SuccessStatus ResendVerificationEmail(string certificateId);

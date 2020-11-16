@@ -8,7 +8,7 @@ using ZeroSSL.Net.Model.Misc;
 
 namespace ZeroSSL.Net.Model.Output
 {
-    public class Certificate : IOutput
+    public class CertificateDetails : IOutput
     {
         public string id { get; set; }
         public CertificateType type { get; set; }

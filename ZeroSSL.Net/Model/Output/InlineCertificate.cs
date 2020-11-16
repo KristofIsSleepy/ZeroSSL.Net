@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ZeroSSL.Net.Model.Output
 {
-    public class DownloadCertificate : IOutput
+    public class InlineCertificate : IOutput
     {
         [JsonProperty("certificate.crt")]
         public string certificate { get; set; }
