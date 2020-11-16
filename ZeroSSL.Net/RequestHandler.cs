@@ -99,13 +99,9 @@ namespace ZeroSSL.Net
 
         public static string ConstructRequestEndpoint(string endpointDirectory, string additionalParameters)
         {
-            //Verify that the consumer has set the AccessKey
-            if (String.IsNullOrEmpty(AccessKey))
-            {
-                throw new EmptyAPIKeyException();
-            }
+            string intermediateAddress = ConstructRequestEndpoint(endpointDirectory);
 
-            return $@"https://{BaseEndpoint}/{endpointDirectory}?access_key={AccessKey}&{additionalParameters}";
+            return $@"{intermediateAddress}&{additionalParameters}";
         }
     }
 }
