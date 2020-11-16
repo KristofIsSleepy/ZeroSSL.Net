@@ -16,6 +16,8 @@ steps:
   inputs:
     command: 'build'
     projects: '**/ZeroSSL.Net.csproj'
+    arguments: 'OutputPath=$(Build.ArtifactStagingDirectory)'
+
 
 - task: PowerShell@2
   inputs:
