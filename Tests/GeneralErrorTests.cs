@@ -15,7 +15,7 @@ namespace Tests
     [TestClass]
     public class GeneralErrorTests
     {
-        string apiKey = "726d3895dc963c3922358e5bb032044a";
+        string apiKey = "#{apiKey}#";
 
         [TestMethod]
         public void MissingAccessKey()

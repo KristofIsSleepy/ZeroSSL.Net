@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>ZeroSSL.Net is a library used to communicate with the ZeroSSL API.</Description>
+    <Authors>Christopher Davey</Authors>
+    <Company></Company>
+    <Copyright></Copyright>
+    <Version>1.0.1</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
