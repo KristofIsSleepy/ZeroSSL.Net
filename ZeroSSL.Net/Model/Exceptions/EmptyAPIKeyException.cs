@@ -8,6 +8,8 @@ namespace ZeroSSL.Net.Model.Exceptions
 {
     public class EmptyAPIKeyException : Exception
     {
-        public string Message = "API Key is empty or null.";
+        public EmptyAPIKeyException() : base("API Key is empty or null.")
+        {
+        }
     }
 }
