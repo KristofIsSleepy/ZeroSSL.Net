@@ -20,6 +20,12 @@ steps:
     enableTelemetry: true
 
 - task: DotNetCoreCLI@2
+  displayName: 'Test'
+  inputs:
+    command: 'test'
+    projects: '**/*.csproj'
+
+- task: DotNetCoreCLI@2
   displayName: 'Build'
   inputs:
     command: 'build'
