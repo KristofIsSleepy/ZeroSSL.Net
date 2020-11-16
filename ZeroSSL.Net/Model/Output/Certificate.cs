@@ -1,13 +1,14 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZeroSSL.Net.Model.Misc;
 
-namespace ZeroSSL.Net.Model
+namespace ZeroSSL.Net.Model.Output
 {
-    public class Certificate
+    public class Certificate : IOutput
     {
         public string id { get; set; }
         public CertificateType type { get; set; }
@@ -23,8 +24,8 @@ namespace ZeroSSL.Net.Model
 
         public class Validation
         {
-            public JsonObject email_validation { get; set; }
-            public JsonObject other_methods { get; set; }
+            public JObject email_validation { get; set; }
+            public JObject other_methods { get; set; }
         }
     }
 }

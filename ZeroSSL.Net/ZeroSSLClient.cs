@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net;
 using System.Text;
-using ZeroSSL.Net.Model;
-using ZeroSSL.Net.Model.Input;
+using ZeroSSL.Net.Model.Exceptions;
 using ZeroSSL.Net.Model.Input.GET;
 using ZeroSSL.Net.Model.Input.POST;
+using ZeroSSL.Net.Model.Output;
 
 namespace ZeroSSL.Net
 {
@@ -20,16 +21,16 @@ namespace ZeroSSL.Net
             accessKey = _accessKey;
         }
 
-        public void CreateCertificate(CreateCertificatePOST postParameters)
+        public Certificate CreateCertificate(CreateCertificatePOST postParameters)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint("certificates");
-            SendRequest(absoluteEndpoint, postParameters, "POST");
+            return SendRequest<Certificate>(absoluteEndpoint, postParameters, "POST");
         }
 
-        public void VerifyDomains(string certificateId, VerifyDomainsPOST postParameters)
+        public VerifyDomains VerifyDomains(string certificateId, VerifyDomainsPOST postParameters)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}/challenges");
-            SendRequest(absoluteEndpoint, postParameters, "POST");
+            return SendRequest<VerifyDomains>(absoluteEndpoint, postParameters, "POST");
         }
 
         public void DownloadCertificateZIP(string certificateId, string targetFile)
@@ -42,56 +43,56 @@ namespace ZeroSSL.Net
             }
         }
 
-        public void DownloadCertificateInline(string certificateId)
+        public DownloadCertificate DownloadCertificateInline(string certificateId)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}/download/return");
-            SendRequest(absoluteEndpoint, null, "GET");
+            return SendRequest<DownloadCertificate>(absoluteEndpoint, null, "GET");
         }
 
-        public void GetCertificate(string certificateId)
+        public Certificate GetCertificate(string certificateId)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}");
-            SendRequest(absoluteEndpoint, null, "GET");
+            return SendRequest<Certificate>(absoluteEndpoint, null, "GET");
         }
 
-        public void ListCertificates(ListCertificatesGET getParameters)
+        public ListCertificates ListCertificates(ListCertificatesGET getParameters)
         {
             string parameters = $"certificate_status={getParameters.certificate_status}&search={getParameters.search}&limit={getParameters.limit}&page={getParameters.page}";
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates", parameters);
-            SendRequest(absoluteEndpoint, null, "GET");
+            return SendRequest<ListCertificates>(absoluteEndpoint, null, "GET");
         }
 
-        public void VerificationStatus(string certificateId)
+        public VerificationStatus VerificationStatus(string certificateId)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}/status");
-            SendRequest(absoluteEndpoint, null, "GET");
+            return SendRequest<VerificationStatus>(absoluteEndpoint, null, "GET");
         }
 
-        public void ResendVerificationEmail(string certificateId)
+        public SuccessStatus ResendVerificationEmail(string certificateId)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}/challenges/email");
-            SendRequest(absoluteEndpoint, null, "POST");
+            return SendRequest<SuccessStatus>(absoluteEndpoint, null, "POST");
         }
 
-        public void CancelCertificate(string certificateId)
+        public SuccessStatus CancelCertificate(string certificateId)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}/cancel");
-            SendRequest(absoluteEndpoint, null, "POST");
+            return SendRequest<SuccessStatus>(absoluteEndpoint, null, "POST");
         }
 
-        public void DeleteCertificate(string certificateId)
+        public SuccessStatus DeleteCertificate(string certificateId)
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"certificates/{certificateId}");
-            SendRequest(absoluteEndpoint, null, "DELETE");
+            return SendRequest<SuccessStatus>(absoluteEndpoint, null, "DELETE");
         }
 
-        public void GenerateEABCredentials()
+        public EABCredentials GenerateEABCredentials()
         {
             var absoluteEndpoint = ConstructAbsoluteEndpoint($"acme/eab-credentials");
-            SendRequest(absoluteEndpoint, null, "POST");
+            return SendRequest<EABCredentials>(absoluteEndpoint, null, "POST");
         }
 
-        private void SendRequest(string endpointDirectory, InputBasePOST input, string method)
+        private T SendRequest<T>(string endpointDirectory, InputBasePOST input, string method) where T : IOutput
         {
             var requester = WebRequest.Create(endpointDirectory);
             requester.Method = method;
@@ -118,13 +119,42 @@ namespace ZeroSSL.Net
                 var sr = new StreamReader(stream);
                 var content = sr.ReadToEnd();
 
+                //Check for errors first
+                var errorObject = JsonConvert.DeserializeObject<Error>(content);
 
-                try
+                if (errorObject.error != null)
                 {
-                    var returnObj = JsonConvert.DeserializeObject<Certificate>(content);
+                    string code = "";
+                    string type = "";
+
+                    foreach(var obj in errorObject.error)
+                    {
+                        switch(obj.Key)
+                        {
+                            case "code":
+                                code = obj.Value.ToString();
+                                break;
+                            case "type":
+                                type = obj.Value.ToString();
+                                break;
+                            default:
+                                throw new Exception("Unexpected token in error response.");
+                        }
+                    }
+
+                    if (code == "" || type == "")
+                    {
+                        throw new Exception("Could not set code and/or type. Has the API definition changed?");
+                    }
+                    else
+                    {
+                        throw new ZeroSSLErrorException(code, type);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
+                    var responseObject = JsonConvert.DeserializeObject<T>(content);
+                    return responseObject;
                 }
             }
         }

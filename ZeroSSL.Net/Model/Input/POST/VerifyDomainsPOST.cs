@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ZeroSSL.Net.Model.Misc;
 
 namespace ZeroSSL.Net.Model.Input.POST
 {

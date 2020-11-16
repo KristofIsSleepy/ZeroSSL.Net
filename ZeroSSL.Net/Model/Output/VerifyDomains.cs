@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZeroSSL.Net.Model.Input.GET
+namespace ZeroSSL.Net.Model.Output
 {
-    public class VerifyDomainsGET : InputBaseGET
+    public class VerifyDomains : IOutput
     {
-        public string ID { get; private set; }
     }
 }

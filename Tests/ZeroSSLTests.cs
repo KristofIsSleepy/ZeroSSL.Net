@@ -1,8 +1,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using ZeroSSL.Net;
-using ZeroSSL.Net.Model;
+using ZeroSSL.Net.Model.Exceptions;
 using ZeroSSL.Net.Model.Input.GET;
 using ZeroSSL.Net.Model.Input.POST;
+using ZeroSSL.Net.Model.Misc;
 
 namespace Tests
 {
@@ -18,7 +20,18 @@ namespace Tests
 
             var client = new ZeroSSLClient(apiKey);
 
-            client.CreateCertificate(certificateInput);
+            try
+            {
+                var certificate = client.CreateCertificate(certificateInput);
+            }
+            catch (ZeroSSLErrorException ex)
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         [TestMethod]

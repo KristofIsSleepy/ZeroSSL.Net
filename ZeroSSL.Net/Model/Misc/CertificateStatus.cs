@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZeroSSL.Net.Model
+namespace ZeroSSL.Net.Model.Misc
 {
     public enum CertificateStatus
     {
