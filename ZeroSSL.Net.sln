@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeroSSL.Net", "ZeroSSL.Net.csproj", "{1C9A4AF4-82CD-4588-98A5-B48709821E19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZeroSSL.Net", "ZeroSSL.Net\ZeroSSL.Net.csproj", "{1C9A4AF4-82CD-4588-98A5-B48709821E19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "..\Tests\Tests.csproj", "{9F21D101-7327-4195-9D46-659F1FFC661A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{D727CC26-92A2-4622-A126-48D20C92C2B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{1C9A4AF4-82CD-4588-98A5-B48709821E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C9A4AF4-82CD-4588-98A5-B48709821E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C9A4AF4-82CD-4588-98A5-B48709821E19}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F21D101-7327-4195-9D46-659F1FFC661A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F21D101-7327-4195-9D46-659F1FFC661A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F21D101-7327-4195-9D46-659F1FFC661A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F21D101-7327-4195-9D46-659F1FFC661A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D727CC26-92A2-4622-A126-48D20C92C2B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D727CC26-92A2-4622-A126-48D20C92C2B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D727CC26-92A2-4622-A126-48D20C92C2B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D727CC26-92A2-4622-A126-48D20C92C2B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
